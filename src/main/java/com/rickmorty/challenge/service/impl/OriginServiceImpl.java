@@ -1,5 +1,6 @@
 package com.rickmorty.challenge.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rickmorty.challenge.dto.OriginDto;
 import com.rickmorty.challenge.service.OriginService;
 import com.rickmorty.challenge.util.RestConnectionManager;
@@ -14,9 +15,9 @@ public class OriginServiceImpl implements OriginService {
     private RestConnectionManager restConnectionManager;
 
     public OriginDto getOriginDto(String url){
-        OriginDto originDto = new OriginDto();
         ResponseEntity<Object> responseOrigin = restConnectionManager.getObjectFromWebAPI(url);
-
+        ObjectMapper mapper = new ObjectMapper();
+        OriginDto originDto = mapper.convertValue(responseOrigin.getBody(), OriginDto.class);
         return originDto;
     }
 

@@ -1,5 +1,6 @@
 package com.rickmorty.challenge.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rickmorty.challenge.dto.CharacterDto;
 
 import com.rickmorty.challenge.dto.OriginDto;
@@ -20,12 +21,14 @@ public class CharacterServiceImpl implements CharacterService {
     private RestConnectionManager restConnectionManager;
 
     public CharacterDto getCharacterDto(String id){
-        CharacterDto characterDto = new CharacterDto();
-        String url ="https://rickandmortyapi.com/api/location/1";
-
         ResponseEntity<Object> responseCharacter = restConnectionManager.getObjectFromWebAPI(ConstantsHolder.CHARACTER_URL + id);
-
-        OriginDto originDto = originService.getOriginDto(url);
+        ObjectMapper mapper = new ObjectMapper();
+        CharacterDto characterDto = mapper.convertValue(responseCharacter.getBody(), CharacterDto.class);
+        characterDto.setEpisode_count(characterDto.getEpisode().length);
+        if (!characterDto.getOrigin().getUrl().isEmpty()) {
+            OriginDto originDto = originService.getOriginDto(characterDto.getOrigin().getUrl());
+            characterDto.setOrigin(originDto);
+        }
         return characterDto;
     }
 

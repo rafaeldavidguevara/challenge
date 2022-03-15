@@ -1,5 +1,8 @@
 package com.rickmorty.challenge.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OriginDto {
     private String name;
     private String url;

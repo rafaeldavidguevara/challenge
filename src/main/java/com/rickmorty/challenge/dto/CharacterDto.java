@@ -1,11 +1,17 @@
 package com.rickmorty.challenge.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CharacterDto {
     private int id;
     private String name;
     private String status;
     private String species;
     private String type;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String[] episode;
     private int episode_count;
     private OriginDto origin;
 
@@ -63,5 +69,13 @@ public class CharacterDto {
 
     public void setOrigin(OriginDto origin) {
         this.origin = origin;
+    }
+
+    public String[] getEpisode() {
+        return episode;
+    }
+
+    public void setEpisode(String[] episode) {
+        this.episode = episode;
     }
 }
