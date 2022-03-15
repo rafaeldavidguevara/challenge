@@ -12,11 +12,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
+    //Handles the exception thrown when a character is not found
     @ExceptionHandler(value = HttpClientErrorException.class)
     ResponseEntity<Object> handleClientErrorException(HttpClientErrorException ex) {
         return new ResponseEntity<>(new ErrorResponse(ConstantsHolder.CHARACTER_NOT_FOUND), ex.getStatusCode());
     }
 
+    //Handles the exception thrown when an invalid Id is submited
     @ExceptionHandler(value = HttpServerErrorException.class)
     ResponseEntity<Object> handleHttpServerErrorException(HttpServerErrorException ex) {
         return new ResponseEntity<>(new ErrorResponse(ConstantsHolder.INVALID_ID), ex.getStatusCode());

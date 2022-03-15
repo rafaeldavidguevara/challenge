@@ -13,10 +13,11 @@ public class OriginServiceImpl implements OriginService {
 
     @Autowired
     private RestConnectionManager restConnectionManager;
+    @Autowired
+    private ObjectMapper mapper;
 
     public OriginDto getOriginDto(String url){
         ResponseEntity<Object> responseOrigin = restConnectionManager.getObjectFromWebAPI(url);
-        ObjectMapper mapper = new ObjectMapper();
         OriginDto originDto = mapper.convertValue(responseOrigin.getBody(), OriginDto.class);
         return originDto;
     }
