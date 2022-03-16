@@ -28,12 +28,23 @@ class CharacterServiceImplTest {
     @Mock
     private OriginService originService;
     private CharacterDto characterDto;
-    private OriginDto originDto;
     private ResponseEntity<Object> responseEntity;
 
     @BeforeEach
     public void setUp(){
         MockitoAnnotations.openMocks(this);
+        setCharacterDto();
+        OriginDto originDto = new OriginDto();
+        originDto.setUrl("www.myurl.com");
+        originDto.setName("Earth");
+        characterDto.setOrigin(originDto);
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(MediaType.APPLICATION_JSON);
+        responseEntity = new ResponseEntity<>(characterDto, header, HttpStatus.OK);
+        ReflectionTestUtils.setField(characterService,"mapper", new ObjectMapper());
+    }
+
+    public void setCharacterDto(){
         characterDto = new CharacterDto();
         characterDto.setName("Jan");
         characterDto.setId(22);
@@ -45,20 +56,7 @@ class CharacterServiceImplTest {
         episode[0] = "https://rickandmortyapi.com/api/episode/45";
         episode[1] = "https://rickandmortyapi.com/api/episode/32";
         characterDto.setEpisode(episode);
-        OriginDto originDto = new OriginDto();
-        originDto.setUrl("www.myurl.com");
-        originDto.setName("Earth");
-        characterDto.setOrigin(originDto);
-        HttpHeaders header = new HttpHeaders();
-        header.setContentType(MediaType.APPLICATION_JSON);
-        responseEntity = new ResponseEntity<>(
-                characterDto,
-                header,
-                HttpStatus.OK
-        );
-        ReflectionTestUtils.setField(characterService,"mapper", new ObjectMapper());
     }
-
 
     @Test
     public void testCharacterServiceImpReturnsExpectedValues(){

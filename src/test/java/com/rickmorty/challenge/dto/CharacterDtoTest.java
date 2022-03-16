@@ -21,6 +21,10 @@ class CharacterDtoTest {
         episode[0] = "https://rickandmortyapi.com/api/episode/45";
         episode[1] = "https://rickandmortyapi.com/api/episode/32";
         characterDto.setEpisode(episode);
+        setOriginDto();
+    }
+
+    public void setOriginDto(){
         OriginDto originDto = new OriginDto();
         originDto.setUrl("www.myurl.com");
         originDto.setName("Earth");

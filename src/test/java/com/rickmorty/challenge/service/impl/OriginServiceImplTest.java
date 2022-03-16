@@ -39,11 +39,7 @@ class OriginServiceImplTest {
         originDto.setResidents(residents);
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
-        responseEntity = new ResponseEntity<>(
-                originDto,
-                header,
-                HttpStatus.OK
-        );
+        responseEntity = new ResponseEntity<>(originDto, header, HttpStatus.OK);
         ReflectionTestUtils.setField(originService,"mapper", new ObjectMapper());
     }
 

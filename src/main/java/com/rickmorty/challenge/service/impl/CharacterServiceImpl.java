@@ -30,7 +30,10 @@ public class CharacterServiceImpl implements CharacterService {
         if (!characterDto.getOrigin().getUrl().isEmpty()) {
             OriginDto originDto = originService.getOriginDto(characterDto.getOrigin().getUrl());
             characterDto.setOrigin(originDto);
+        }else{
+            characterDto.getOrigin().setDimension("");
         }
+
         return characterDto;
     }
 

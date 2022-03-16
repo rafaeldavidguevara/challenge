@@ -9,6 +9,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -27,19 +29,29 @@ class RestConnectionManagerTest {
     @Test
     public void testManagerReturnsExpectedValues(){
         HttpHeaders header = new HttpHeaders();
-        String body = "{\"message\" : \"this is a JSON object\"}";
-        String url = "http://sampleurl.com/";
         header.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<Object> responseEntity = new ResponseEntity<>(
-                body,
-                header,
-                HttpStatus.OK
-        );
+        ResponseEntity<Object> responseEntity = new ResponseEntity<>("{\"message\" : \"this is a JSON object\"}", header, HttpStatus.OK);
         Mockito.when(restTemplate.getForEntity(Mockito.anyString(), Mockito.any())).thenReturn(responseEntity);
-        ResponseEntity<Object> testResponseEntity = restConnectionManager.getObjectFromWebAPI(url);
+        ResponseEntity<Object> testResponseEntity = restConnectionManager.getObjectFromWebAPI("http://sampleurl.com/");
         Assertions.assertEquals(responseEntity.getBody().toString(), testResponseEntity.getBody().toString());
         Assertions.assertEquals(responseEntity.getStatusCode(), testResponseEntity.getStatusCode());
         Assertions.assertEquals(responseEntity.getHeaders(), testResponseEntity.getHeaders());
+    }
+
+    @Test
+    public void testHttpClientErrorExceptionIsThrown(){
+        Mockito.when(restTemplate.getForEntity(Mockito.anyString(), Mockito.any())).thenThrow(new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR));
+        Assertions.assertThrows(HttpClientErrorException.class, () -> {
+            restConnectionManager.getObjectFromWebAPI("2");
+        });
+    }
+
+    @Test
+    public void testHttpServerErrorExceptionIsThrown(){
+        Mockito.when(restTemplate.getForEntity(Mockito.anyString(), Mockito.any())).thenThrow(new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR));
+        Assertions.assertThrows(HttpServerErrorException.class, () -> {
+            restConnectionManager.getObjectFromWebAPI("dfsdf");
+        });
     }
 
 }

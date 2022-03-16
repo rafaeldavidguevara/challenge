@@ -18,7 +18,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new ErrorResponse(ConstantsHolder.CHARACTER_NOT_FOUND), ex.getStatusCode());
     }
 
-    //Handles the exception thrown when an invalid Id is submited
+    //Handles the exception thrown when an invalid Id is submitted
     @ExceptionHandler(value = HttpServerErrorException.class)
     public ResponseEntity<Object> handleHttpServerErrorException(HttpServerErrorException ex) {
         return new ResponseEntity<>(new ErrorResponse(ConstantsHolder.INVALID_ID), ex.getStatusCode());
