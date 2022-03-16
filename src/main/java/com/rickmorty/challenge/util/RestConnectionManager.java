@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class RestConnectionManager {
     @Autowired
-    RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
     public ResponseEntity<Object> getObjectFromWebAPI(String url){
         ResponseEntity<Object> response = restTemplate.getForEntity(url, Object.class);

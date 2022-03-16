@@ -1,17 +1,14 @@
 package com.rickmorty.challenge.dto;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+
 class OriginDtoTest {
 
     private OriginDto originDto;
     private String[] residents;
 
-    @BeforeAll
+    @BeforeEach
     public void setUp(){
         originDto = new OriginDto();
         residents = new String[3];
@@ -25,7 +22,7 @@ class OriginDtoTest {
     }
 
     @Test
-    public void testFields(){
+    public void testFieldsHaveExpectedValues(){
         Assertions.assertEquals( "Earth", originDto.getName());
         Assertions.assertEquals( "Mortal plane", originDto.getDimension());
         Assertions.assertEquals( "www.myurl.com", originDto.getUrl());

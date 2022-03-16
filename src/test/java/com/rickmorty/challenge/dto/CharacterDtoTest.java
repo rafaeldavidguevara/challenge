@@ -2,14 +2,13 @@ package com.rickmorty.challenge.dto;
 
 import org.junit.jupiter.api.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CharacterDtoTest {
 
     private CharacterDto characterDto;
     private String[] episode;
     private String[] residents;
 
-    @BeforeAll
+    @BeforeEach
     public void setUp(){
         characterDto = new CharacterDto();
         characterDto.setName("Jan");
@@ -35,7 +34,7 @@ class CharacterDtoTest {
     }
 
     @Test
-    public void testFields(){
+    public void testFieldsHaveExpectedValues(){
         Assertions.assertEquals( "Jan", characterDto.getName());
         Assertions.assertEquals( 22, characterDto.getId());
         Assertions.assertEquals( "Human", characterDto.getSpecies());
@@ -46,7 +45,7 @@ class CharacterDtoTest {
     }
 
     @Test
-    public void testOriginField(){
+    public void testOriginFieldHaveExpectedValues(){
         Assertions.assertNotNull(characterDto.getOrigin());
         Assertions.assertEquals( "Earth", characterDto.getOrigin().getName());
         Assertions.assertEquals( "Dimension C-137", characterDto.getOrigin().getDimension());

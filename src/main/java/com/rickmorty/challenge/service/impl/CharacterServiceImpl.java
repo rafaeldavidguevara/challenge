@@ -24,7 +24,9 @@ public class CharacterServiceImpl implements CharacterService {
     public CharacterDto getCharacterDto(String id){
         ResponseEntity<Object> responseCharacter = restConnectionManager.getObjectFromWebAPI(ConstantsHolder.CHARACTER_URL + id);
         CharacterDto characterDto = mapper.convertValue(responseCharacter.getBody(), CharacterDto.class);
-        characterDto.setEpisode_count(characterDto.getEpisode().length);
+        if (characterDto.getEpisode() != null) {
+            characterDto.setEpisode_count(characterDto.getEpisode().length);
+        }
         if (!characterDto.getOrigin().getUrl().isEmpty()) {
             OriginDto originDto = originService.getOriginDto(characterDto.getOrigin().getUrl());
             characterDto.setOrigin(originDto);
