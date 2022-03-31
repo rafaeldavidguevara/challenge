@@ -3,8 +3,11 @@ package com.rickmorty.challenge.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rickmorty.challenge.dto.CharacterDto;
-import com.rickmorty.challenge.exception.ErrorResponse;
+import com.rickmorty.challenge.exception.InvalidIdException;
 import com.rickmorty.challenge.service.CharacterService;
+import com.rickmorty.challenge.util.InputValidator;
+import com.rickmorty.challenge.util.RegexInputValidator;
+import com.rickmorty.challenge.util.contract.IValidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,12 +17,15 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.util.ReflectionTestUtils;
 
 class CharacterControllerTest {
     @InjectMocks
     private CharacterController characterController;
     @Mock
     private CharacterService characterService;
+    @Mock
+    private IValidator inputValidator;
     private  ObjectMapper objectMapper;
 
     @BeforeEach
@@ -31,8 +37,8 @@ class CharacterControllerTest {
     @Test
     public void testControllerReturnsExpectedResults(){
         CharacterDto characterDto = setCharacterDto();
-        Mockito.when(characterService.getCharacterDto(Mockito.anyString())).thenReturn(characterDto);
-        ResponseEntity<Object> testResponseEntity = characterController.fetchCharacter("2");
+        Mockito.when(characterService.getCharacterDto("2")).thenReturn(characterDto);
+        ResponseEntity<CharacterDto> testResponseEntity = characterController.fetchCharacter("2");
         CharacterDto testCharacterDto =  objectMapper.convertValue(testResponseEntity.getBody(), CharacterDto.class);
         Assertions.assertEquals( "Jan", testCharacterDto.getName());
         Assertions.assertEquals( 22, testCharacterDto.getId());
@@ -55,11 +61,17 @@ class CharacterControllerTest {
     }
 
     @Test
-    public void testControllerReturnsExpectedErrorResults(){
-        ResponseEntity<Object> testResponseEntity = characterController.fetchCharacter(" ");
-        ErrorResponse testErrorResponse =  objectMapper.convertValue(testResponseEntity.getBody(), ErrorResponse.class);
-        Assertions.assertEquals( "Hey! you must provide an id", testErrorResponse.getError());
-        Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, testResponseEntity.getStatusCode());
+    public void controller_is_decoupled_from_validators(){
+        InputValidator inputValidator = new InputValidator();
+        ReflectionTestUtils.setField(characterController, "inputValidator", inputValidator);
+        Assertions.assertThrows(InvalidIdException.class,  () -> characterController.fetchCharacter("  "));
+        Assertions.assertThrows(InvalidIdException.class,  () -> characterController.fetchCharacter("-123"));
+        Assertions.assertThrows(InvalidIdException.class,  () -> characterController.fetchCharacter("efee"));
+        RegexInputValidator regexInputValidator = new RegexInputValidator();
+        ReflectionTestUtils.setField(characterController, "inputValidator", regexInputValidator);
+        Assertions.assertThrows(InvalidIdException.class,  () -> characterController.fetchCharacter("  "));
+        Assertions.assertThrows(InvalidIdException.class,  () -> characterController.fetchCharacter("-123"));
+        Assertions.assertThrows(InvalidIdException.class,  () -> characterController.fetchCharacter("efee"));
     }
 
 }

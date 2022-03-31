@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -41,17 +40,7 @@ class RestConnectionManagerTest {
     @Test
     public void testHttpClientErrorExceptionIsThrown(){
         Mockito.when(restTemplate.getForEntity(Mockito.anyString(), Mockito.any())).thenThrow(new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR));
-        Assertions.assertThrows(HttpClientErrorException.class, () -> {
-            restConnectionManager.getObjectFromWebAPI("2");
-        });
-    }
-
-    @Test
-    public void testHttpServerErrorExceptionIsThrown(){
-        Mockito.when(restTemplate.getForEntity(Mockito.anyString(), Mockito.any())).thenThrow(new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR));
-        Assertions.assertThrows(HttpServerErrorException.class, () -> {
-            restConnectionManager.getObjectFromWebAPI("dfsdf");
-        });
+        Assertions.assertThrows(HttpClientErrorException.class, () -> restConnectionManager.getObjectFromWebAPI("2"));
     }
 
 }

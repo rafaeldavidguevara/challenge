@@ -1,12 +1,11 @@
 package com.rickmorty.challenge.util;
 
+import com.rickmorty.challenge.util.contract.IConnectionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-@Component
-public class RestConnectionManager {
+public class RestConnectionManager implements IConnectionManager {
     @Autowired
     private RestTemplate restTemplate;
 

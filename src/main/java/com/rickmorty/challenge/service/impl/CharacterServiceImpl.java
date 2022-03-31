@@ -1,40 +1,36 @@
 package com.rickmorty.challenge.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rickmorty.challenge.dto.CharacterDto;
-import com.rickmorty.challenge.dto.OriginDto;
+import com.rickmorty.challenge.dto.CharacterInputDto;
+import com.rickmorty.challenge.dto.OriginInputDto;
 import com.rickmorty.challenge.service.CharacterService;
-import com.rickmorty.challenge.service.OriginService;
 import com.rickmorty.challenge.util.ConstantsHolder;
-import com.rickmorty.challenge.util.RestConnectionManager;
+import com.rickmorty.challenge.util.contract.IConnectionManager;
+import com.rickmorty.challenge.util.contract.IMapper;
+import com.rickmorty.challenge.util.contract.IOutputMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CharacterServiceImpl implements CharacterService {
-
     @Autowired
-    private OriginService originService;
+    private IConnectionManager connectionManager;
     @Autowired
-    private RestConnectionManager restConnectionManager;
+    private IMapper mapper;
     @Autowired
-    private ObjectMapper mapper;
+    private IOutputMapper outputMapper;
 
     public CharacterDto getCharacterDto(String id){
-        ResponseEntity<Object> responseCharacter = restConnectionManager.getObjectFromWebAPI(ConstantsHolder.CHARACTER_URL + id);
-        CharacterDto characterDto = mapper.convertValue(responseCharacter.getBody(), CharacterDto.class);
-        if (characterDto.getEpisode() != null) {
-            characterDto.setEpisode_count(characterDto.getEpisode().length);
+        ResponseEntity<Object> responseCharacter = connectionManager.getObjectFromWebAPI(ConstantsHolder.CHARACTER_URL + id);
+        CharacterInputDto characterInputDto = mapper.mapCharacterInputDto(responseCharacter);
+        if (!characterInputDto.getOrigin().getUrl().isEmpty()) {
+            ResponseEntity<Object> responseOrigin = connectionManager.getObjectFromWebAPI(characterInputDto.getOrigin().getUrl());
+            OriginInputDto originInputDto = mapper.mapOriginInputDto(responseOrigin);
+            return outputMapper.getCharacterDto(characterInputDto, originInputDto);
+        }else {
+            return outputMapper.getCharacterDto(characterInputDto);
         }
-        if (!characterDto.getOrigin().getUrl().isEmpty()) {
-            OriginDto originDto = originService.getOriginDto(characterDto.getOrigin().getUrl());
-            characterDto.setOrigin(originDto);
-        }else{
-            characterDto.getOrigin().setDimension("");
-        }
-
-        return characterDto;
     }
 
 }

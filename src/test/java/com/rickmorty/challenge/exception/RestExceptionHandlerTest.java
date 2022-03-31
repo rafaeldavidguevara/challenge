@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
 
 class RestExceptionHandlerTest {
 
@@ -23,12 +22,9 @@ class RestExceptionHandlerTest {
 
     @Test
     public void testHandlerReturnsExpectedResults(){
-        ResponseEntity<Object> responseEntity = restExceptionHandler.handleClientErrorException(new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR));
+        ResponseEntity<ErrorResponse> responseEntity = restExceptionHandler.handleClientErrorException(new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR));
         ErrorResponse errorResponse = objectMapper.convertValue(responseEntity.getBody(), ErrorResponse.class);
         Assertions.assertEquals( "Character not found", errorResponse.getError());
-        responseEntity = restExceptionHandler.handleHttpServerErrorException(new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR));
-        errorResponse = objectMapper.convertValue(responseEntity.getBody(), ErrorResponse.class);
-        Assertions.assertEquals( "Hey! you must provide an id", errorResponse.getError());
     }
 
 }
