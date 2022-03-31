@@ -1,9 +1,6 @@
 package com.rickmorty.challenge.config;
 
-import com.rickmorty.challenge.util.InputMapper;
-import com.rickmorty.challenge.util.OutputMapper;
-import com.rickmorty.challenge.util.RegexInputValidator;
-import com.rickmorty.challenge.util.RestConnectionManager;
+import com.rickmorty.challenge.util.*;
 import com.rickmorty.challenge.util.contract.IOutputMapper;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -29,15 +26,15 @@ public class AppConfig {
 //        return new AsyncRestConnectionManager();
 //    }
 
-//    @Bean
-//    public InputValidator inputValidator(){
-//        return new InputValidator();
-//    }
-
     @Bean
-    public RegexInputValidator inputValidator(){
-        return new RegexInputValidator();
+    public InputValidator inputValidator(){
+        return new InputValidator();
     }
+
+//    @Bean
+//    public RegexInputValidator inputValidator(){
+//        return new RegexInputValidator();
+//    }
 
     @Bean
     public InputMapper mapper(){

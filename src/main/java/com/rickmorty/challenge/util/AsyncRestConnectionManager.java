@@ -5,6 +5,7 @@ import com.rickmorty.challenge.util.contract.IConnectionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -30,6 +31,9 @@ public class AsyncRestConnectionManager implements IConnectionManager {
             response = responseFuture.get();
         }catch (Exception e){
             e.printStackTrace();
+        }
+        if (response.statusCode() == 404){
+            throw new HttpClientErrorException(HttpStatus.valueOf(response.statusCode()));
         }
         LinkedHashMap map = null;
         try {
