@@ -1,17 +1,17 @@
-package com.rickmorty.challenge.util;
+package com.rickmorty.challenge.util.validator;
 
 import com.rickmorty.challenge.exception.InvalidIdException;
 import com.rickmorty.challenge.util.contract.IValidator;
 import org.springframework.http.HttpStatus;
+import org.apache.commons.lang3.StringUtils;
 
-import java.util.regex.Pattern;
 
-public class RegexInputValidator implements IValidator {
-    private Pattern pattern = Pattern.compile("\\d+");
+public class InputValidator implements IValidator {
 
     public void validate(String input){
-        if (!pattern.matcher(input).matches()) {
+        if (input.isEmpty() || !StringUtils.isNumeric(input)) {
             throw new InvalidIdException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }

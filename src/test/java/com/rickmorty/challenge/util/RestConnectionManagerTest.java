@@ -1,5 +1,6 @@
 package com.rickmorty.challenge.util;
 
+import com.rickmorty.challenge.util.connector.RestConnectionManager;
 import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

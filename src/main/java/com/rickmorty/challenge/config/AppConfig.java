@@ -2,7 +2,10 @@ package com.rickmorty.challenge.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rickmorty.challenge.service.impl.CharacterServiceImpl;
-import com.rickmorty.challenge.util.*;
+import com.rickmorty.challenge.util.connector.RestConnectionManager;
+import com.rickmorty.challenge.util.mapper.InputMapper;
+import com.rickmorty.challenge.util.mapper.OutputMapper;
+import com.rickmorty.challenge.util.validator.InputValidator;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

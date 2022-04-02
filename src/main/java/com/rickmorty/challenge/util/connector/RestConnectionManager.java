@@ -1,4 +1,4 @@
-package com.rickmorty.challenge.util;
+package com.rickmorty.challenge.util.connector;
 
 import com.rickmorty.challenge.util.contract.IConnectionManager;
 import org.springframework.http.ResponseEntity;

@@ -1,22 +1,5 @@
 package com.rickmorty.challenge.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rickmorty.challenge.dto.CharacterDto;
-import com.rickmorty.challenge.dto.OriginDto;
-import com.rickmorty.challenge.util.RestConnectionManager;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.util.ReflectionTestUtils;
-
 
 class CharacterServiceImplTest {
 

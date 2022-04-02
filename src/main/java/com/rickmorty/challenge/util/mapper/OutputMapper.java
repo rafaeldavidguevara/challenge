@@ -1,4 +1,4 @@
-package com.rickmorty.challenge.util;
+package com.rickmorty.challenge.util.mapper;
 
 import com.rickmorty.challenge.dto.CharacterDto;
 import com.rickmorty.challenge.dto.CharacterInputDto;
