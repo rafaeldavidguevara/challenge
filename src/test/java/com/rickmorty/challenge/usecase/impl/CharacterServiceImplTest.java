@@ -1,4 +1,4 @@
-package com.rickmorty.challenge.service.impl;
+package com.rickmorty.challenge.usecase.impl;
 
 
 class CharacterServiceImplTest {

@@ -4,7 +4,7 @@ package com.rickmorty.challenge.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rickmorty.challenge.dto.CharacterDto;
 import com.rickmorty.challenge.exception.InvalidIdException;
-import com.rickmorty.challenge.service.CharacterService;
+import com.rickmorty.challenge.usecase.GetCharacterById;
 import com.rickmorty.challenge.util.validator.InputValidator;
 import com.rickmorty.challenge.util.validator.RegexInputValidator;
 import com.rickmorty.challenge.util.contract.IValidator;
@@ -23,7 +23,7 @@ class CharacterControllerTest {
     @InjectMocks
     private CharacterController characterController;
     @Mock
-    private CharacterService characterService;
+    private GetCharacterById getCharacterById;
     @Mock
     private IValidator inputValidator;
     private  ObjectMapper objectMapper;
@@ -37,8 +37,8 @@ class CharacterControllerTest {
     @Test
     public void testControllerReturnsExpectedResults(){
         CharacterDto characterDto = setCharacterDto();
-        Mockito.when(characterService.getCharacterDto("2")).thenReturn(characterDto);
-        ResponseEntity<CharacterDto> testResponseEntity = characterController.fetchCharacter("2");
+        Mockito.when(getCharacterById.execute("2")).thenReturn(characterDto);
+        ResponseEntity<CharacterDto> testResponseEntity = characterController.getCharacterById("2");
         CharacterDto testCharacterDto =  objectMapper.convertValue(testResponseEntity.getBody(), CharacterDto.class);
         Assertions.assertEquals( "Jan", testCharacterDto.getName());
         Assertions.assertEquals( 22, testCharacterDto.getId());
@@ -64,14 +64,14 @@ class CharacterControllerTest {
     public void controller_is_decoupled_from_validators(){
         InputValidator inputValidator = new InputValidator();
         ReflectionTestUtils.setField(characterController, "inputValidator", inputValidator);
-        Assertions.assertThrows(InvalidIdException.class,  () -> characterController.fetchCharacter("  "));
-        Assertions.assertThrows(InvalidIdException.class,  () -> characterController.fetchCharacter("-123"));
-        Assertions.assertThrows(InvalidIdException.class,  () -> characterController.fetchCharacter("efee"));
+        Assertions.assertThrows(InvalidIdException.class,  () -> characterController.getCharacterById("  "));
+        Assertions.assertThrows(InvalidIdException.class,  () -> characterController.getCharacterById("-123"));
+        Assertions.assertThrows(InvalidIdException.class,  () -> characterController.getCharacterById("efee"));
         RegexInputValidator regexInputValidator = new RegexInputValidator();
         ReflectionTestUtils.setField(characterController, "inputValidator", regexInputValidator);
-        Assertions.assertThrows(InvalidIdException.class,  () -> characterController.fetchCharacter("  "));
-        Assertions.assertThrows(InvalidIdException.class,  () -> characterController.fetchCharacter("-123"));
-        Assertions.assertThrows(InvalidIdException.class,  () -> characterController.fetchCharacter("efee"));
+        Assertions.assertThrows(InvalidIdException.class,  () -> characterController.getCharacterById("  "));
+        Assertions.assertThrows(InvalidIdException.class,  () -> characterController.getCharacterById("-123"));
+        Assertions.assertThrows(InvalidIdException.class,  () -> characterController.getCharacterById("efee"));
     }
 
 }

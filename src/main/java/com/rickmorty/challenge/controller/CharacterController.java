@@ -1,7 +1,7 @@
 package com.rickmorty.challenge.controller;
 
 import com.rickmorty.challenge.dto.CharacterDto;
-import com.rickmorty.challenge.service.CharacterService;
+import com.rickmorty.challenge.usecase.GetCharacterById;
 import com.rickmorty.challenge.util.contract.IValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,18 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CharacterController {
 
-    private final CharacterService characterService;
+    private final GetCharacterById getCharacterById;
     private final IValidator inputValidator;
 
-    public CharacterController(CharacterService characterService, IValidator inputValidator){
-        this.characterService = characterService;
+    public CharacterController(GetCharacterById getCharacterById, IValidator inputValidator){
+        this.getCharacterById = getCharacterById;
         this.inputValidator = inputValidator;
     }
 
     @RequestMapping("/api/character/{id}")
-    public ResponseEntity<CharacterDto> fetchCharacter(@PathVariable("id") String id){
+        public ResponseEntity<CharacterDto> getCharacterById(@PathVariable("id") String id){
         inputValidator.validate(id);
-        return new ResponseEntity<>(characterService.getCharacterDto(id), HttpStatus.OK);
+        return new ResponseEntity<>(getCharacterById.execute(id), HttpStatus.OK);
     }
 
 }
