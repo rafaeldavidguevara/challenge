@@ -1,17 +1,17 @@
 package com.rickmorty.challenge.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rickmorty.challenge.dto.CharacterDto;
 import com.rickmorty.challenge.dto.CharacterInputDto;
-import com.rickmorty.challenge.dto.OriginDto;
 import com.rickmorty.challenge.dto.OriginInputDto;
 import com.rickmorty.challenge.util.contract.IMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 public class InputMapper implements IMapper {
-    @Autowired
-    private ObjectMapper mapper;
+    private final ObjectMapper mapper;
+
+    public InputMapper(ObjectMapper mapper){
+        this.mapper = mapper;
+    }
 
     public CharacterInputDto mapCharacterInputDto(ResponseEntity<Object> response){
         CharacterInputDto characterInputDto = mapper.convertValue(response.getBody(), CharacterInputDto.class);

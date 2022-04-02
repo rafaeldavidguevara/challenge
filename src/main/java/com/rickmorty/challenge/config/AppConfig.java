@@ -1,30 +1,22 @@
 package com.rickmorty.challenge.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rickmorty.challenge.service.impl.CharacterServiceImpl;
 import com.rickmorty.challenge.util.*;
-import com.rickmorty.challenge.util.contract.IOutputMapper;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
 
 @Configuration
+@ComponentScan("com.rickmorty.challenge")
 public class AppConfig {
 
     @Bean
-    public RestTemplate restTemplate() {
-        RestTemplateBuilder builder = new RestTemplateBuilder();
-        return  builder.build();
-    }
-
-    @Bean
     public RestConnectionManager connectionManager() {
-        return new RestConnectionManager();
+        RestTemplateBuilder builder = new RestTemplateBuilder();
+        return new RestConnectionManager(builder.build());
     }
-
-//    @Bean
-//    public AsyncRestConnectionManager connectionManager() {
-//        return new AsyncRestConnectionManager();
-//    }
 
     @Bean
     public InputValidator inputValidator(){
@@ -38,12 +30,17 @@ public class AppConfig {
 
     @Bean
     public InputMapper mapper(){
-        return new InputMapper();
+        return new InputMapper(new ObjectMapper());
     }
 
     @Bean
-    public IOutputMapper outputMapper(){
+    public OutputMapper outputMapper(){
         return new OutputMapper();
+    }
+
+    @Bean
+    public CharacterServiceImpl characterService(){
+        return new CharacterServiceImpl(connectionManager(), mapper(), outputMapper());
     }
 
 }

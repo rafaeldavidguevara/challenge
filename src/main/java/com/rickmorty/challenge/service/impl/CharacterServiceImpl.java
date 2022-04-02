@@ -8,18 +8,18 @@ import com.rickmorty.challenge.util.ConstantsHolder;
 import com.rickmorty.challenge.util.contract.IConnectionManager;
 import com.rickmorty.challenge.util.contract.IMapper;
 import com.rickmorty.challenge.util.contract.IOutputMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
-@Service
 public class CharacterServiceImpl implements CharacterService {
-    @Autowired
-    private IConnectionManager connectionManager;
-    @Autowired
-    private IMapper mapper;
-    @Autowired
-    private IOutputMapper outputMapper;
+    private final IConnectionManager connectionManager;
+    private final IMapper mapper;
+    private final IOutputMapper outputMapper;
+
+    public CharacterServiceImpl(IConnectionManager connectionManager, IMapper mapper, IOutputMapper outputMapper){
+        this.connectionManager = connectionManager;
+        this.mapper = mapper;
+        this.outputMapper = outputMapper;
+    }
 
     public CharacterDto getCharacterDto(String id){
         ResponseEntity<Object> responseCharacter = connectionManager.getObjectFromWebAPI(ConstantsHolder.CHARACTER_URL + id);

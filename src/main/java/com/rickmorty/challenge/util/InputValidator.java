@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 public class InputValidator implements IValidator {
 
     public void validate(String input){
-        if (input.isBlank() || !StringUtils.isNumeric(input)) {
+        if (input.isEmpty() || !StringUtils.isNumeric(input)) {
             throw new InvalidIdException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

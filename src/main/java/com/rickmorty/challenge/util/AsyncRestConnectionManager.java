@@ -1,4 +1,4 @@
-package com.rickmorty.challenge.util;
+/*package com.rickmorty.challenge.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rickmorty.challenge.util.contract.IConnectionManager;
@@ -45,3 +45,4 @@ public class AsyncRestConnectionManager implements IConnectionManager {
         return new ResponseEntity<>(map, HttpStatus.valueOf(response.statusCode()));
     }
 }
+*/
