@@ -1,13 +1,13 @@
 package com.rickmorty.challenge.entity;
 
-public class Character {
+public class CharacterEntity {
     private int id;
     private String name;
     private String status;
     private String species;
     private String type;
     private int episode_count;
-    private Location origin;
+    private LocationEntity origin;
 
     public int getId() {
         return id;
@@ -57,11 +57,11 @@ public class Character {
         this.episode_count = episode_count;
     }
 
-    public Location getLocation() {
+    public LocationEntity getLocation() {
         return origin;
     }
 
-    public void setLocation(Location origin) {
+    public void setLocation(LocationEntity origin) {
         this.origin = origin;
     }
 

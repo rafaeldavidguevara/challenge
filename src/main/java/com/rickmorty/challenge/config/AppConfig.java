@@ -1,7 +1,8 @@
 package com.rickmorty.challenge.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rickmorty.challenge.gateway.CharacterGateway;
+import com.rickmorty.challenge.gateway.impl.CharacterGatewayImpl;
+import com.rickmorty.challenge.usecase.impl.GetCharacterByIdUseCase;
 import com.rickmorty.challenge.util.connector.RestConnectionManager;
 import com.rickmorty.challenge.util.mapper.InputMapper;
 import com.rickmorty.challenge.util.mapper.OutputMapper;
@@ -42,8 +43,13 @@ public class AppConfig {
     }
 
     @Bean
-    public CharacterGateway characterService(){
-        return new CharacterGateway(connectionManager(), mapper(), outputMapper());
+    public CharacterGatewayImpl characterGateway(){
+        return new CharacterGatewayImpl(connectionManager(), mapper(), outputMapper());
+    }
+
+    @Bean
+    public GetCharacterByIdUseCase getCharacterById(){
+        return new GetCharacterByIdUseCase(characterGateway());
     }
 
 }

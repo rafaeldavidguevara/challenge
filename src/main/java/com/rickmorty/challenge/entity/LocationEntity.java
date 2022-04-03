@@ -1,6 +1,6 @@
 package com.rickmorty.challenge.entity;
 
-public class Location {
+public class LocationEntity {
     private String name;
     private String url;
     private String dimension;
