@@ -1,7 +1,7 @@
 package com.rickmorty.challenge.gateway;
 
-import com.rickmorty.challenge.dto.CharacterDto;
+import com.rickmorty.challenge.entity.CharacterEntity;
 
 public interface CharacterGateway {
-    CharacterDto execute(String id);
+    CharacterEntity execute(String id);
 }

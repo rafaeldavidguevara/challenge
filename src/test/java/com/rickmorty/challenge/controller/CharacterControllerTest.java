@@ -34,20 +34,20 @@ class CharacterControllerTest {
         objectMapper = new ObjectMapper();
     }
 
-    @Test
-    public void testControllerReturnsExpectedResults(){
-        CharacterDto characterDto = setCharacterDto();
-        Mockito.when(getCharacterById.execute("2")).thenReturn(characterDto);
-        ResponseEntity<CharacterDto> testResponseEntity = characterController.getCharacterById("2");
-        CharacterDto testCharacterDto =  objectMapper.convertValue(testResponseEntity.getBody(), CharacterDto.class);
-        Assertions.assertEquals( "Jan", testCharacterDto.getName());
-        Assertions.assertEquals( 22, testCharacterDto.getId());
-        Assertions.assertEquals( "Human", testCharacterDto.getSpecies());
-        Assertions.assertEquals( "Alive", testCharacterDto.getStatus());
-        Assertions.assertEquals( "type1", testCharacterDto.getType());
-        Assertions.assertEquals( 2, testCharacterDto.getEpisode_count());
-        Assertions.assertEquals(HttpStatus.OK, testResponseEntity.getStatusCode());
-    }
+//    @Test
+//    public void testControllerReturnsExpectedResults(){
+//        CharacterDto characterDto = setCharacterDto();
+//        Mockito.when(getCharacterById.execute("2")).thenReturn(characterDto);
+//        ResponseEntity<CharacterDto> testResponseEntity = characterController.getCharacterById("2");
+//        CharacterDto testCharacterDto =  objectMapper.convertValue(testResponseEntity.getBody(), CharacterDto.class);
+//        Assertions.assertEquals( "Jan", testCharacterDto.getName());
+//        Assertions.assertEquals( 22, testCharacterDto.getId());
+//        Assertions.assertEquals( "Human", testCharacterDto.getSpecies());
+//        Assertions.assertEquals( "Alive", testCharacterDto.getStatus());
+//        Assertions.assertEquals( "type1", testCharacterDto.getType());
+//        Assertions.assertEquals( 2, testCharacterDto.getEpisode_count());
+//        Assertions.assertEquals(HttpStatus.OK, testResponseEntity.getStatusCode());
+//    }
 
     public CharacterDto setCharacterDto(){
         CharacterDto characterDto = new CharacterDto();

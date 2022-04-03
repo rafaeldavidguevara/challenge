@@ -1,8 +1,8 @@
 package com.rickmorty.challenge.gateway.impl;
 
-import com.rickmorty.challenge.dto.CharacterDto;
 import com.rickmorty.challenge.dto.CharacterInputDto;
 import com.rickmorty.challenge.dto.OriginInputDto;
+import com.rickmorty.challenge.entity.CharacterEntity;
 import com.rickmorty.challenge.gateway.CharacterGateway;
 import com.rickmorty.challenge.util.ConstantsHolder;
 import com.rickmorty.challenge.util.contract.IConnectionManager;
@@ -21,7 +21,7 @@ public class CharacterGatewayImpl implements CharacterGateway {
         this.outputMapper = outputMapper;
     }
 
-    public CharacterDto execute(String id){
+    public CharacterEntity execute(String id){
         ResponseEntity<Object> responseCharacter = connectionManager.getObjectFromWebAPI(ConstantsHolder.CHARACTER_URL + id);
         CharacterInputDto characterInputDto = mapper.mapCharacterInputDto(responseCharacter);
         if (!characterInputDto.getOrigin().getUrl().isEmpty()) {
